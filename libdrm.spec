@@ -4,7 +4,7 @@
 #
 Name     : libdrm
 Version  : 2.4.64
-Release  : 8
+Release  : 9
 URL      : http://dri.freedesktop.org/libdrm/libdrm-2.4.64.tar.gz
 Source0  : http://dri.freedesktop.org/libdrm/libdrm-2.4.64.tar.gz
 Summary  : Userspace interface to kernel DRM services
