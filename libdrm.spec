@@ -4,13 +4,15 @@
 #
 Name     : libdrm
 Version  : 2.4.68
-Release  : 16
+Release  : 17
 URL      : http://dri.freedesktop.org/libdrm/libdrm-2.4.68.tar.gz
 Source0  : http://dri.freedesktop.org/libdrm/libdrm-2.4.68.tar.gz
 Summary  : Userspace interface to kernel DRM services
 Group    : Development/Tools
 License  : MIT
 Requires: libdrm-lib
+Requires: libdrm-doc
+BuildRequires : docbook-xml
 BuildRequires : libxslt-bin
 BuildRequires : pkgconfig(cairo)
 BuildRequires : pkgconfig(cunit)
@@ -42,6 +44,14 @@ Provides: libdrm-devel
 dev components for the libdrm package.
 
 
+%package doc
+Summary: doc components for the libdrm package.
+Group: Documentation
+
+%description doc
+doc components for the libdrm package.
+
+
 %package lib
 Summary: lib components for the libdrm package.
 Group: Libraries
@@ -57,10 +67,10 @@ lib components for the libdrm package.
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -flto -fno-semantic-interposition -O3 -falign-functions=32 "
-export FCFLAGS="$CFLAGS -flto -fno-semantic-interposition -O3 -falign-functions=32 "
-export FFLAGS="$CFLAGS -flto -fno-semantic-interposition -O3 -falign-functions=32 "
-export CXXFLAGS="$CXXFLAGS -flto -fno-semantic-interposition -O3 -falign-functions=32 "
+export CFLAGS="$CFLAGS -falign-functions=32 -O3 -flto -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -falign-functions=32 -O3 -flto -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -falign-functions=32 -O3 -flto -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -falign-functions=32 -O3 -flto -fno-semantic-interposition "
 %configure --disable-static --enable-udev --disable-radeon --disable-nouveau --enable-intel
 make V=1  %{?_smp_mflags}
 
@@ -105,6 +115,11 @@ rm -rf %{buildroot}
 /usr/include/libkms/libkms.h
 /usr/lib64/*.so
 /usr/lib64/pkgconfig/*.pc
+
+%files doc
+%defattr(-,root,root,-)
+%doc /usr/share/man/man3/*
+%doc /usr/share/man/man7/*
 
 %files lib
 %defattr(-,root,root,-)
