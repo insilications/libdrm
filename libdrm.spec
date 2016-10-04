@@ -4,7 +4,7 @@
 #
 Name     : libdrm
 Version  : 2.4.71
-Release  : 21
+Release  : 22
 URL      : http://dri.freedesktop.org/libdrm/libdrm-2.4.71.tar.gz
 Source0  : http://dri.freedesktop.org/libdrm/libdrm-2.4.71.tar.gz
 Summary  : Userspace interface to kernel DRM services
@@ -65,10 +65,13 @@ lib components for the libdrm package.
 
 %build
 export LANG=C
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -flto -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -flto -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -flto -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -flto -fno-semantic-interposition "
 %configure --disable-static --enable-udev --disable-radeon --disable-nouveau --enable-intel
 make V=1  %{?_smp_mflags}
 
