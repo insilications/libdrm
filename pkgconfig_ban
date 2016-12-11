@@ -4,3 +4,5 @@
 #
 32cairo
 32cunit
+32valgrind
+cunit

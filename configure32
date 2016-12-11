@@ -1,0 +1,2 @@
+--disable-cairo-tests
+--disable-valgrind
