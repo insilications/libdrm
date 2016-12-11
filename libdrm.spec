@@ -4,7 +4,7 @@
 #
 Name     : libdrm
 Version  : 2.4.74
-Release  : 24
+Release  : 25
 URL      : http://dri.freedesktop.org/libdrm/libdrm-2.4.74.tar.gz
 Source0  : http://dri.freedesktop.org/libdrm/libdrm-2.4.74.tar.gz
 Summary  : Userspace interface to kernel DRM services
@@ -116,8 +116,14 @@ rm -rf %{buildroot}
 /usr/include/libdrm/virtgpu_drm.h
 /usr/include/libdrm/vmwgfx_drm.h
 /usr/include/libkms/libkms.h
-/usr/lib64/*.so
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libdrm.so
+/usr/lib64/libdrm_amdgpu.so
+/usr/lib64/libdrm_intel.so
+/usr/lib64/libkms.so
+/usr/lib64/pkgconfig/libdrm.pc
+/usr/lib64/pkgconfig/libdrm_amdgpu.pc
+/usr/lib64/pkgconfig/libdrm_intel.pc
+/usr/lib64/pkgconfig/libkms.pc
 
 %files doc
 %defattr(-,root,root,-)
@@ -126,4 +132,11 @@ rm -rf %{buildroot}
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libdrm.so.2
+/usr/lib64/libdrm.so.2.4.0
+/usr/lib64/libdrm_amdgpu.so.1
+/usr/lib64/libdrm_amdgpu.so.1.0.0
+/usr/lib64/libdrm_intel.so.1
+/usr/lib64/libdrm_intel.so.1.0.0
+/usr/lib64/libkms.so.1
+/usr/lib64/libkms.so.1.0.0
