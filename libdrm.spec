@@ -6,7 +6,7 @@
 #
 Name     : libdrm
 Version  : 2.4.79
-Release  : 31
+Release  : 32
 URL      : http://dri.freedesktop.org/libdrm/libdrm-2.4.79.tar.gz
 Source0  : http://dri.freedesktop.org/libdrm/libdrm-2.4.79.tar.gz
 Source99 : http://dri.freedesktop.org/libdrm/libdrm-2.4.79.tar.gz.sig
@@ -94,7 +94,7 @@ popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1491759454
+export SOURCE_DATE_EPOCH=1492184336
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -102,7 +102,7 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-sem
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
-%configure --disable-static --enable-udev --disable-radeon --disable-nouveau --enable-intel
+%configure --disable-static --enable-udev --enable-intel
 make V=1  %{?_smp_mflags}
 
 pushd ../build32/
@@ -110,7 +110,7 @@ export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-%configure --disable-static --enable-udev --disable-radeon --disable-nouveau --enable-intel --disable-cairo-tests \
+%configure --disable-static --enable-udev --enable-intel --disable-cairo-tests \
 --disable-valgrind  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make V=1  %{?_smp_mflags}
 popd
@@ -122,7 +122,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1491759454
+export SOURCE_DATE_EPOCH=1492184336
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -153,10 +153,26 @@ popd
 /usr/include/libdrm/intel_debug.h
 /usr/include/libdrm/mach64_drm.h
 /usr/include/libdrm/mga_drm.h
+/usr/include/libdrm/nouveau/nouveau.h
+/usr/include/libdrm/nouveau/nvif/cl0080.h
+/usr/include/libdrm/nouveau/nvif/cl9097.h
+/usr/include/libdrm/nouveau/nvif/class.h
+/usr/include/libdrm/nouveau/nvif/if0002.h
+/usr/include/libdrm/nouveau/nvif/if0003.h
+/usr/include/libdrm/nouveau/nvif/ioctl.h
+/usr/include/libdrm/nouveau/nvif/unpack.h
 /usr/include/libdrm/nouveau_drm.h
 /usr/include/libdrm/qxl_drm.h
 /usr/include/libdrm/r128_drm.h
+/usr/include/libdrm/r600_pci_ids.h
+/usr/include/libdrm/radeon_bo.h
+/usr/include/libdrm/radeon_bo_gem.h
+/usr/include/libdrm/radeon_bo_int.h
+/usr/include/libdrm/radeon_cs.h
+/usr/include/libdrm/radeon_cs_gem.h
+/usr/include/libdrm/radeon_cs_int.h
 /usr/include/libdrm/radeon_drm.h
+/usr/include/libdrm/radeon_surface.h
 /usr/include/libdrm/savage_drm.h
 /usr/include/libdrm/sis_drm.h
 /usr/include/libdrm/tegra_drm.h
@@ -168,10 +184,14 @@ popd
 /usr/lib64/libdrm.so
 /usr/lib64/libdrm_amdgpu.so
 /usr/lib64/libdrm_intel.so
+/usr/lib64/libdrm_nouveau.so
+/usr/lib64/libdrm_radeon.so
 /usr/lib64/libkms.so
 /usr/lib64/pkgconfig/libdrm.pc
 /usr/lib64/pkgconfig/libdrm_amdgpu.pc
 /usr/lib64/pkgconfig/libdrm_intel.pc
+/usr/lib64/pkgconfig/libdrm_nouveau.pc
+/usr/lib64/pkgconfig/libdrm_radeon.pc
 /usr/lib64/pkgconfig/libkms.pc
 
 %files dev32
@@ -179,14 +199,20 @@ popd
 /usr/lib32/libdrm.so
 /usr/lib32/libdrm_amdgpu.so
 /usr/lib32/libdrm_intel.so
+/usr/lib32/libdrm_nouveau.so
+/usr/lib32/libdrm_radeon.so
 /usr/lib32/libkms.so
 /usr/lib32/pkgconfig/32libdrm.pc
 /usr/lib32/pkgconfig/32libdrm_amdgpu.pc
 /usr/lib32/pkgconfig/32libdrm_intel.pc
+/usr/lib32/pkgconfig/32libdrm_nouveau.pc
+/usr/lib32/pkgconfig/32libdrm_radeon.pc
 /usr/lib32/pkgconfig/32libkms.pc
 /usr/lib32/pkgconfig/libdrm.pc
 /usr/lib32/pkgconfig/libdrm_amdgpu.pc
 /usr/lib32/pkgconfig/libdrm_intel.pc
+/usr/lib32/pkgconfig/libdrm_nouveau.pc
+/usr/lib32/pkgconfig/libdrm_radeon.pc
 /usr/lib32/pkgconfig/libkms.pc
 
 %files doc
@@ -202,6 +228,10 @@ popd
 /usr/lib64/libdrm_amdgpu.so.1.0.0
 /usr/lib64/libdrm_intel.so.1
 /usr/lib64/libdrm_intel.so.1.0.0
+/usr/lib64/libdrm_nouveau.so.2
+/usr/lib64/libdrm_nouveau.so.2.0.0
+/usr/lib64/libdrm_radeon.so.1
+/usr/lib64/libdrm_radeon.so.1.0.1
 /usr/lib64/libkms.so.1
 /usr/lib64/libkms.so.1.0.0
 
@@ -213,5 +243,9 @@ popd
 /usr/lib32/libdrm_amdgpu.so.1.0.0
 /usr/lib32/libdrm_intel.so.1
 /usr/lib32/libdrm_intel.so.1.0.0
+/usr/lib32/libdrm_nouveau.so.2
+/usr/lib32/libdrm_nouveau.so.2.0.0
+/usr/lib32/libdrm_radeon.so.1
+/usr/lib32/libdrm_radeon.so.1.0.1
 /usr/lib32/libkms.so.1
 /usr/lib32/libkms.so.1.0.0

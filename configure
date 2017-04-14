@@ -1,1 +1,1 @@
- --enable-udev --disable-radeon --disable-nouveau --enable-intel
+ --enable-udev --enable-intel
