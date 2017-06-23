@@ -6,7 +6,7 @@
 #
 Name     : libdrm
 Version  : 2.4.81
-Release  : 37
+Release  : 38
 URL      : https://dri.freedesktop.org/libdrm/libdrm-2.4.81.tar.gz
 Source0  : https://dri.freedesktop.org/libdrm/libdrm-2.4.81.tar.gz
 Source99 : https://dri.freedesktop.org/libdrm/libdrm-2.4.81.tar.gz.sig
@@ -97,7 +97,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1497449012
+export SOURCE_DATE_EPOCH=1498234720
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -125,7 +125,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1497449012
+export SOURCE_DATE_EPOCH=1498234720
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
