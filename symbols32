@@ -173,6 +173,7 @@ libdrm.so.2:drmSyncobjExportSyncFile
 libdrm.so.2:drmSyncobjFDToHandle
 libdrm.so.2:drmSyncobjHandleToFD
 libdrm.so.2:drmSyncobjImportSyncFile
+libdrm.so.2:drmSyncobjWait
 libdrm.so.2:drmUnlock
 libdrm.so.2:drmUnmap
 libdrm.so.2:drmUnmapBufs
@@ -202,12 +203,16 @@ libdrm_amdgpu.so.1:amdgpu_cs_ctx_free
 libdrm_amdgpu.so.1:amdgpu_cs_destroy_semaphore
 libdrm_amdgpu.so.1:amdgpu_cs_destroy_syncobj
 libdrm_amdgpu.so.1:amdgpu_cs_export_syncobj
+libdrm_amdgpu.so.1:amdgpu_cs_fence_to_handle
 libdrm_amdgpu.so.1:amdgpu_cs_import_syncobj
 libdrm_amdgpu.so.1:amdgpu_cs_query_fence_status
 libdrm_amdgpu.so.1:amdgpu_cs_query_reset_state
 libdrm_amdgpu.so.1:amdgpu_cs_signal_semaphore
 libdrm_amdgpu.so.1:amdgpu_cs_submit
 libdrm_amdgpu.so.1:amdgpu_cs_submit_raw
+libdrm_amdgpu.so.1:amdgpu_cs_syncobj_export_sync_file
+libdrm_amdgpu.so.1:amdgpu_cs_syncobj_import_sync_file
+libdrm_amdgpu.so.1:amdgpu_cs_syncobj_wait
 libdrm_amdgpu.so.1:amdgpu_cs_wait_fences
 libdrm_amdgpu.so.1:amdgpu_cs_wait_semaphore
 libdrm_amdgpu.so.1:amdgpu_device_deinitialize
