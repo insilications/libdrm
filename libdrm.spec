@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xFDD15D5ACEF0F2B1 (maraeo@gmail.com)
 #
 Name     : libdrm
-Version  : 2.4.84
-Release  : 42
-URL      : https://dri.freedesktop.org/libdrm/libdrm-2.4.84.tar.gz
-Source0  : https://dri.freedesktop.org/libdrm/libdrm-2.4.84.tar.gz
-Source99 : https://dri.freedesktop.org/libdrm/libdrm-2.4.84.tar.gz.sig
+Version  : 2.4.85
+Release  : 43
+URL      : https://dri.freedesktop.org/libdrm/libdrm-2.4.85.tar.gz
+Source0  : https://dri.freedesktop.org/libdrm/libdrm-2.4.85.tar.gz
+Source99 : https://dri.freedesktop.org/libdrm/libdrm-2.4.85.tar.gz.sig
 Summary  : Userspace interface to kernel DRM services
 Group    : Development/Tools
 License  : MIT
@@ -100,9 +100,9 @@ lib32 components for the libdrm package.
 
 
 %prep
-%setup -q -n libdrm-2.4.84
+%setup -q -n libdrm-2.4.85
 pushd ..
-cp -a libdrm-2.4.84 build32
+cp -a libdrm-2.4.85 build32
 popd
 
 %build
@@ -110,7 +110,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1507902738
+export SOURCE_DATE_EPOCH=1508608308
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -138,7 +138,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1507902738
+export SOURCE_DATE_EPOCH=1508608308
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
