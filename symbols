@@ -233,6 +233,8 @@ libdrm_amdgpu.so.1:amdgpu_read_mm_registers
 libdrm_amdgpu.so.1:amdgpu_va_range_alloc
 libdrm_amdgpu.so.1:amdgpu_va_range_free
 libdrm_amdgpu.so.1:amdgpu_va_range_query
+libdrm_amdgpu.so.1:amdgpu_vm_reserve_vmid
+libdrm_amdgpu.so.1:amdgpu_vm_unreserve_vmid
 libdrm_intel.so.1:drm_intel_bo_alloc
 libdrm_intel.so.1:drm_intel_bo_alloc_for_render
 libdrm_intel.so.1:drm_intel_bo_alloc_tiled
