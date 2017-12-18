@@ -1,12 +1,7 @@
 Configure miss: whether sys/types.h defines makedev
 Configure miss: CUNIT
 Configure miss: CU_initialize_registry in -lcunit
-Configure miss: i686-generic-linux-gnu-pkg-config
 Configure miss: whether sys/types.h defines makedev
-Configure miss: i686-generic-linux-gnu-objdump
-Configure miss: i686-generic-linux-gnu-dlltool
-Configure miss: i686-generic-linux-gnu-strip
-Configure miss: i686-generic-linux-gnu-mt
 Configure miss: CUNIT
 Configure miss: CU_initialize_registry in -lcunit
 Configure miss: whether to enable Cairo tests
