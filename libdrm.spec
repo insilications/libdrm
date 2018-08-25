@@ -4,7 +4,7 @@
 #
 Name     : libdrm
 Version  : 2.4.94
-Release  : 56
+Release  : 57
 URL      : https://dri.freedesktop.org/libdrm/libdrm-2.4.94.tar.gz
 Source0  : https://dri.freedesktop.org/libdrm/libdrm-2.4.94.tar.gz
 Summary  : Userspace interface to kernel DRM services
@@ -109,7 +109,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1535146609
+export SOURCE_DATE_EPOCH=1535164285
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -137,7 +137,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1535146609
+export SOURCE_DATE_EPOCH=1535164285
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
