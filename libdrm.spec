@@ -6,7 +6,7 @@
 #
 Name     : libdrm
 Version  : 2.4.96
-Release  : 59
+Release  : 60
 URL      : https://dri.freedesktop.org/libdrm/libdrm-2.4.96.tar.gz
 Source0  : https://dri.freedesktop.org/libdrm/libdrm-2.4.96.tar.gz
 Source99 : https://dri.freedesktop.org/libdrm/libdrm-2.4.96.tar.gz.sig
@@ -31,6 +31,7 @@ BuildRequires : pkgconfig(cairo)
 BuildRequires : pkgconfig(pciaccess)
 BuildRequires : pkgconfig(pthread-stubs)
 BuildRequires : pkgconfig(valgrind)
+Patch1: log2int.patch
 
 %description
 libdrm - userspace library for drm
@@ -103,6 +104,7 @@ man components for the libdrm package.
 
 %prep
 %setup -q -n libdrm-2.4.96
+%patch1 -p1
 pushd ..
 cp -a libdrm-2.4.96 build32
 popd
@@ -112,7 +114,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1539750174
+export SOURCE_DATE_EPOCH=1547786521
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -143,7 +145,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1539750174
+export SOURCE_DATE_EPOCH=1547786521
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
