@@ -6,7 +6,7 @@
 #
 Name     : libdrm
 Version  : 2.4.98
-Release  : 62
+Release  : 63
 URL      : https://dri.freedesktop.org/libdrm/libdrm-2.4.98.tar.gz
 Source0  : https://dri.freedesktop.org/libdrm/libdrm-2.4.98.tar.gz
 Source99 : https://dri.freedesktop.org/libdrm/libdrm-2.4.98.tar.gz.sig
@@ -108,7 +108,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1555717997
+export SOURCE_DATE_EPOCH=1557077659
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -139,7 +139,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1555717997
+export SOURCE_DATE_EPOCH=1557077659
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
