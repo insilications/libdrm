@@ -6,10 +6,10 @@
 #
 Name     : libdrm
 Version  : 2.4.99
-Release  : 64
+Release  : 65
 URL      : https://dri.freedesktop.org/libdrm/libdrm-2.4.99.tar.gz
 Source0  : https://dri.freedesktop.org/libdrm/libdrm-2.4.99.tar.gz
-Source99 : https://dri.freedesktop.org/libdrm/libdrm-2.4.99.tar.gz.sig
+Source1 : https://dri.freedesktop.org/libdrm/libdrm-2.4.99.tar.gz.sig
 Summary  : Userspace interface to kernel DRM services
 Group    : Development/Tools
 License  : MIT
@@ -53,7 +53,6 @@ Group: Development
 Requires: libdrm-lib = %{version}-%{release}
 Requires: libdrm-data = %{version}-%{release}
 Provides: libdrm-devel = %{version}-%{release}
-Requires: libdrm = %{version}-%{release}
 Requires: libdrm = %{version}-%{release}
 
 %description dev
@@ -109,7 +108,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1562144473
+export SOURCE_DATE_EPOCH=1568861948
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -124,9 +123,9 @@ make  %{?_smp_mflags}
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
-export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
-export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
-export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %configure --disable-static --enable-udev --enable-intel --disable-cairo-tests \
 --disable-valgrind  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
@@ -141,7 +140,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1562144473
+export SOURCE_DATE_EPOCH=1568861948
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -163,7 +162,6 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
 /usr/include/libdrm/amdgpu.h
 /usr/include/libdrm/amdgpu_drm.h
 /usr/include/libdrm/drm.h
@@ -205,6 +203,9 @@ popd
 /usr/include/libdrm/virtgpu_drm.h
 /usr/include/libdrm/vmwgfx_drm.h
 /usr/include/libkms/libkms.h
+/usr/include/libsync.h
+/usr/include/xf86drm.h
+/usr/include/xf86drmMode.h
 /usr/lib64/libdrm.so
 /usr/lib64/libdrm_amdgpu.so
 /usr/lib64/libdrm_intel.so
