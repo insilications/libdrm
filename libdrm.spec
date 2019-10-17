@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xFDD15D5ACEF0F2B1 (maraeo@gmail.com)
 #
 Name     : libdrm
-Version  : 2.4.99
-Release  : 65
-URL      : https://dri.freedesktop.org/libdrm/libdrm-2.4.99.tar.gz
-Source0  : https://dri.freedesktop.org/libdrm/libdrm-2.4.99.tar.gz
-Source1 : https://dri.freedesktop.org/libdrm/libdrm-2.4.99.tar.gz.sig
+Version  : 2.4.100
+Release  : 66
+URL      : https://dri.freedesktop.org/libdrm/libdrm-2.4.100.tar.gz
+Source0  : https://dri.freedesktop.org/libdrm/libdrm-2.4.100.tar.gz
+Source1 : https://dri.freedesktop.org/libdrm/libdrm-2.4.100.tar.gz.sig
 Summary  : Userspace interface to kernel DRM services
 Group    : Development/Tools
 License  : MIT
@@ -54,6 +54,7 @@ Requires: libdrm-lib = %{version}-%{release}
 Requires: libdrm-data = %{version}-%{release}
 Provides: libdrm-devel = %{version}-%{release}
 Requires: libdrm = %{version}-%{release}
+Requires: libdrm = %{version}-%{release}
 
 %description dev
 dev components for the libdrm package.
@@ -97,10 +98,10 @@ man components for the libdrm package.
 
 
 %prep
-%setup -q -n libdrm-2.4.99
+%setup -q -n libdrm-2.4.100
 %patch1 -p1
 pushd ..
-cp -a libdrm-2.4.99 build32
+cp -a libdrm-2.4.100 build32
 popd
 
 %build
@@ -108,7 +109,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1568861948
+export SOURCE_DATE_EPOCH=1571328086
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -140,7 +142,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1568861948
+export SOURCE_DATE_EPOCH=1571328086
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
