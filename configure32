@@ -1,2 +1,2 @@
---disable-cairo-tests
---disable-valgrind
+-Dcairo-tests=false
+-Dvalgrind=false
