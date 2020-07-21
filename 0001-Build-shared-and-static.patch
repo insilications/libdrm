@@ -1,0 +1,266 @@
+From 23b2bc9ca15d3399f083cc30f084bd94ed9dcaa1 Mon Sep 17 00:00:00 2001
+From: insilications <boboniboni@gmail.com>
+Date: Mon, 20 Jul 2020 21:48:44 -0300
+Subject: [PATCH] Build shared and static
+
+---
+ Android.mk            | 2 +-
+ amdgpu/Android.mk     | 2 +-
+ amdgpu/meson.build    | 2 +-
+ etnaviv/Android.mk    | 2 +-
+ etnaviv/meson.build   | 2 +-
+ exynos/meson.build    | 2 +-
+ freedreno/Android.mk  | 2 +-
+ freedreno/meson.build | 2 +-
+ intel/Android.mk      | 2 +-
+ intel/meson.build     | 2 +-
+ libkms/Android.mk     | 2 +-
+ libkms/meson.build    | 2 +-
+ meson.build           | 2 +-
+ nouveau/Android.mk    | 2 +-
+ nouveau/meson.build   | 2 +-
+ omap/Android.mk       | 2 +-
+ omap/meson.build      | 2 +-
+ radeon/Android.mk     | 2 +-
+ radeon/meson.build    | 2 +-
+ tegra/meson.build     | 2 +-
+ 20 files changed, 20 insertions(+), 20 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index 0ab6f0f9..e2d4a125 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -69,6 +69,6 @@ LOCAL_C_INCLUDES := \
+         $(LOCAL_PATH)/include/drm
+ 
+ include $(LIBDRM_COMMON_MK)
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_both_libraries)
+ 
+ include $(call all-makefiles-under,$(LOCAL_PATH))
+diff --git a/amdgpu/Android.mk b/amdgpu/Android.mk
+index 1f028d0b..95b222e3 100644
+--- a/amdgpu/Android.mk
++++ b/amdgpu/Android.mk
+@@ -16,4 +16,4 @@ LOCAL_CFLAGS := \
+ LOCAL_REQUIRED_MODULES := amdgpu.ids
+ 
+ include $(LIBDRM_COMMON_MK)
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_both_libraries)
+diff --git a/amdgpu/meson.build b/amdgpu/meson.build
+index a1781f59..4fcdc409 100644
+--- a/amdgpu/meson.build
++++ b/amdgpu/meson.build
+@@ -21,7 +21,7 @@
+ 
+ datadir_amdgpu = join_paths(get_option('prefix'), get_option('datadir'), 'libdrm')
+ 
+-libdrm_amdgpu = shared_library(
++libdrm_amdgpu = both_libraries(
+   'drm_amdgpu',
+   [
+     files(
+diff --git a/etnaviv/Android.mk b/etnaviv/Android.mk
+index 390f9a98..b6b610bc 100644
+--- a/etnaviv/Android.mk
++++ b/etnaviv/Android.mk
+@@ -11,4 +11,4 @@ LOCAL_SHARED_LIBRARIES := libdrm
+ LOCAL_SRC_FILES := $(LIBDRM_ETNAVIV_FILES)
+ 
+ include $(LIBDRM_COMMON_MK)
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_both_libraries)
+diff --git a/etnaviv/meson.build b/etnaviv/meson.build
+index 6040cf63..b31c990c 100644
+--- a/etnaviv/meson.build
++++ b/etnaviv/meson.build
+@@ -19,7 +19,7 @@
+ # SOFTWARE.
+ 
+ 
+-libdrm_etnaviv = shared_library(
++libdrm_etnaviv = both_libraries(
+   'drm_etnaviv',
+   [
+     files(
+diff --git a/exynos/meson.build b/exynos/meson.build
+index 40d66fc1..6484fa4e 100644
+--- a/exynos/meson.build
++++ b/exynos/meson.build
+@@ -18,7 +18,7 @@
+ # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ # SOFTWARE.
+ 
+-libdrm_exynos = shared_library(
++libdrm_exynos = both_libraries(
+   'drm_exynos',
+   [files('exynos_drm.c', 'exynos_fimg2d.c'), config_file],
+   c_args : libdrm_c_args,
+diff --git a/freedreno/Android.mk b/freedreno/Android.mk
+index 2b582aed..12a35ff6 100644
+--- a/freedreno/Android.mk
++++ b/freedreno/Android.mk
+@@ -11,4 +11,4 @@ LOCAL_SHARED_LIBRARIES := libdrm
+ LOCAL_SRC_FILES := $(LIBDRM_FREEDRENO_FILES)
+ 
+ include $(LIBDRM_COMMON_MK)
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_both_libraries)
+diff --git a/freedreno/meson.build b/freedreno/meson.build
+index 63b84fc9..61f4d648 100644
+--- a/freedreno/meson.build
++++ b/freedreno/meson.build
+@@ -39,7 +39,7 @@ if with_freedreno_kgsl
+   )
+ endif
+ 
+-libdrm_freedreno = shared_library(
++libdrm_freedreno = both_libraries(
+   'drm_freedreno',
+   [files_freedreno, config_file],
+   c_args : libdrm_c_args,
+diff --git a/intel/Android.mk b/intel/Android.mk
+index f45312dd..4166565d 100644
+--- a/intel/Android.mk
++++ b/intel/Android.mk
+@@ -35,4 +35,4 @@ LOCAL_SHARED_LIBRARIES := \
+ 	libdrm
+ 
+ include $(LIBDRM_COMMON_MK)
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_both_libraries)
+diff --git a/intel/meson.build b/intel/meson.build
+index 4d3f1ebd..9447bcc8 100644
+--- a/intel/meson.build
++++ b/intel/meson.build
+@@ -18,7 +18,7 @@
+ # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ # SOFTWARE.
+ 
+-libdrm_intel = shared_library(
++libdrm_intel = both_libraries(
+   'drm_intel',
+   [
+     files(
+diff --git a/libkms/Android.mk b/libkms/Android.mk
+index a8b9489f..0977c0d4 100644
+--- a/libkms/Android.mk
++++ b/libkms/Android.mk
+@@ -48,4 +48,4 @@ LOCAL_MODULE := libkms
+ LOCAL_SHARED_LIBRARIES := libdrm
+ 
+ include $(LIBDRM_COMMON_MK)
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_both_libraries)
+diff --git a/libkms/meson.build b/libkms/meson.build
+index 216be4df..1d33b0b1 100644
+--- a/libkms/meson.build
++++ b/libkms/meson.build
+@@ -41,7 +41,7 @@ if with_exynos
+   libkms_include += include_directories('../exynos')
+ endif
+ 
+-libkms = shared_library(
++libkms = both_libraries(
+   'kms',
+   [files_libkms, config_file],
+   c_args : libdrm_c_args,
+diff --git a/meson.build b/meson.build
+index 831c8836..568e3938 100644
+--- a/meson.build
++++ b/meson.build
+@@ -304,7 +304,7 @@ add_project_arguments('-include', '@0@'.format(config_file), language : 'c')
+ inc_root = include_directories('.')
+ inc_drm = include_directories('include/drm')
+ 
+-libdrm = shared_library(
++libdrm = both_libraries(
+   'drm',
+   [files(
+      'xf86drm.c', 'xf86drmHash.c', 'xf86drmRandom.c', 'xf86drmSL.c',
+diff --git a/nouveau/Android.mk b/nouveau/Android.mk
+index b430af4f..37c8cf38 100644
+--- a/nouveau/Android.mk
++++ b/nouveau/Android.mk
+@@ -11,4 +11,4 @@ LOCAL_SHARED_LIBRARIES := libdrm
+ LOCAL_SRC_FILES := $(LIBDRM_NOUVEAU_FILES)
+ 
+ include $(LIBDRM_COMMON_MK)
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_both_libraries)
+diff --git a/nouveau/meson.build b/nouveau/meson.build
+index 9bd58fca..918fd8fc 100644
+--- a/nouveau/meson.build
++++ b/nouveau/meson.build
+@@ -19,7 +19,7 @@
+ # SOFTWARE.
+ 
+ 
+-libdrm_nouveau = shared_library(
++libdrm_nouveau = both_libraries(
+   'drm_nouveau',
+   [files( 'nouveau.c', 'pushbuf.c', 'bufctx.c', 'abi16.c'), config_file],
+   c_args : libdrm_c_args,
+diff --git a/omap/Android.mk b/omap/Android.mk
+index b25cca13..39f829fc 100644
+--- a/omap/Android.mk
++++ b/omap/Android.mk
+@@ -10,4 +10,4 @@ LOCAL_SHARED_LIBRARIES := libdrm
+ 
+ include $(LIBDRM_COMMON_MK)
+ 
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_both_libraries)
+diff --git a/omap/meson.build b/omap/meson.build
+index 53330b61..e07b6e4a 100644
+--- a/omap/meson.build
++++ b/omap/meson.build
+@@ -18,7 +18,7 @@
+ # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ # SOFTWARE.
+ 
+-libdrm_omap = shared_library(
++libdrm_omap = both_libraries(
+   'drm_omap',
+   [files('omap_drm.c'), config_file],
+   include_directories : [inc_root, inc_drm],
+diff --git a/radeon/Android.mk b/radeon/Android.mk
+index 71040dab..3f30ddb6 100644
+--- a/radeon/Android.mk
++++ b/radeon/Android.mk
+@@ -11,4 +11,4 @@ LOCAL_SHARED_LIBRARIES := libdrm
+ LOCAL_SRC_FILES := $(LIBDRM_RADEON_FILES)
+ 
+ include $(LIBDRM_COMMON_MK)
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_both_libraries)
+diff --git a/radeon/meson.build b/radeon/meson.build
+index ca128329..c9816f40 100644
+--- a/radeon/meson.build
++++ b/radeon/meson.build
+@@ -19,7 +19,7 @@
+ # SOFTWARE.
+ 
+ 
+-libdrm_radeon = shared_library(
++libdrm_radeon = both_libraries(
+   'drm_radeon',
+   [
+     files(
+diff --git a/tegra/meson.build b/tegra/meson.build
+index 88613b9c..c0c1c8fb 100644
+--- a/tegra/meson.build
++++ b/tegra/meson.build
+@@ -18,7 +18,7 @@
+ # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ # SOFTWARE.
+ 
+-libdrm_tegra = shared_library(
++libdrm_tegra = both_libraries(
+   'drm_tegra',
+   [files('tegra.c'), config_file],
+   include_directories : [inc_root, inc_drm],
+-- 
+2.27.0
+

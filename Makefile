@@ -1,5 +1,5 @@
 PKG_NAME := libdrm
-URL = https://dri.freedesktop.org/libdrm/libdrm-2.4.102.tar.xz
+URL = https://gitlab.freedesktop.org/mesa/drm.git
 ARCHIVES = 
 
 include ../common/Makefile.common
