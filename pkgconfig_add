@@ -2,3 +2,9 @@
 # This file contains extra pkgconfig build requirements that don't get picked up but are 
 # desirable. One name per line, no whitespace.
 #
+32atomic_ops
+32pciaccess
+atomic_ops
+cairo
+pciaccess
+valgrind

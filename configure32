@@ -1,0 +1,2 @@
+-Dcairo-tests=false
+-Dvalgrind=false 

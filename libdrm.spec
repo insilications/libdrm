@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libdrm
 Version  : 2.4.102
-Release  : 70
+Release  : 71
 URL      : file:///insilications/build/clearlinux/packages/libdrm/libdrm-libdrm-2.4.102.zip
 Source0  : file:///insilications/build/clearlinux/packages/libdrm/libdrm-libdrm-2.4.102.zip
 Summary  : Userspace interface to kernel DRM services
@@ -17,6 +17,12 @@ Requires: libdrm-man = %{version}-%{release}
 BuildRequires : buildreq-meson
 BuildRequires : cairo-dev
 BuildRequires : docbook-xml
+BuildRequires : findutils
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
 BuildRequires : libxslt-bin
 BuildRequires : pkgconfig(32atomic_ops)
 BuildRequires : pkgconfig(32pciaccess)
@@ -54,6 +60,17 @@ Requires: libdrm = %{version}-%{release}
 dev components for the libdrm package.
 
 
+%package dev32
+Summary: dev32 components for the libdrm package.
+Group: Default
+Requires: libdrm-lib32 = %{version}-%{release}
+Requires: libdrm-data = %{version}-%{release}
+Requires: libdrm-dev = %{version}-%{release}
+
+%description dev32
+dev32 components for the libdrm package.
+
+
 %package lib
 Summary: lib components for the libdrm package.
 Group: Libraries
@@ -61,6 +78,15 @@ Requires: libdrm-data = %{version}-%{release}
 
 %description lib
 lib components for the libdrm package.
+
+
+%package lib32
+Summary: lib32 components for the libdrm package.
+Group: Default
+Requires: libdrm-data = %{version}-%{release}
+
+%description lib32
+lib32 components for the libdrm package.
 
 
 %package man
@@ -80,18 +106,30 @@ Requires: libdrm-dev = %{version}-%{release}
 staticdev components for the libdrm package.
 
 
+%package staticdev32
+Summary: staticdev32 components for the libdrm package.
+Group: Default
+Requires: libdrm-dev = %{version}-%{release}
+
+%description staticdev32
+staticdev32 components for the libdrm package.
+
+
 %prep
 %setup -q -n libdrm-libdrm-2.4.102
 cd %{_builddir}/libdrm-libdrm-2.4.102
 %patch1 -p1
 %patch2 -p1
+pushd ..
+cp -a libdrm-libdrm-2.4.102 build32
+popd
 
 %build
 unset http_proxy
 unset https_proxy
 unset no_proxy
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1595292734
+export SOURCE_DATE_EPOCH=1596136312
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -115,6 +153,16 @@ export NM=gcc-nm
 ## altflags1 end
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dudev=true -Ddefault_library=both -Db_lto=true  builddir
 ninja -v -C builddir
+pushd ../build32/
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
+meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dudev=true -Ddefault_library=both -Db_lto=true -Dcairo-tests=false \
+-Dvalgrind=false builddir
+ninja -v -C builddir
+popd
 
 %check
 export LANG=C.UTF-8
@@ -122,8 +170,19 @@ unset http_proxy
 unset https_proxy
 unset no_proxy
 meson test -C builddir || :
+cd ../build32;
+meson test -C builddir || : || :
 
 %install
+pushd ../build32/
+DESTDIR=%{buildroot} ninja -C builddir install
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
+popd
 DESTDIR=%{buildroot} ninja -C builddir install
 
 %files
@@ -195,6 +254,27 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/man/man3/drmHandleEvent.3
 /usr/share/man/man3/drmModeGetResources.3
 
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libdrm.so
+/usr/lib32/libdrm_amdgpu.so
+/usr/lib32/libdrm_intel.so
+/usr/lib32/libdrm_nouveau.so
+/usr/lib32/libdrm_radeon.so
+/usr/lib32/libkms.so
+/usr/lib32/pkgconfig/32libdrm.pc
+/usr/lib32/pkgconfig/32libdrm_amdgpu.pc
+/usr/lib32/pkgconfig/32libdrm_intel.pc
+/usr/lib32/pkgconfig/32libdrm_nouveau.pc
+/usr/lib32/pkgconfig/32libdrm_radeon.pc
+/usr/lib32/pkgconfig/32libkms.pc
+/usr/lib32/pkgconfig/libdrm.pc
+/usr/lib32/pkgconfig/libdrm_amdgpu.pc
+/usr/lib32/pkgconfig/libdrm_intel.pc
+/usr/lib32/pkgconfig/libdrm_nouveau.pc
+/usr/lib32/pkgconfig/libdrm_radeon.pc
+/usr/lib32/pkgconfig/libkms.pc
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libdrm.so.2
@@ -209,6 +289,21 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/libdrm_radeon.so.1.0.1
 /usr/lib64/libkms.so.1
 /usr/lib64/libkms.so.1.0.0
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libdrm.so.2
+/usr/lib32/libdrm.so.2.4.0
+/usr/lib32/libdrm_amdgpu.so.1
+/usr/lib32/libdrm_amdgpu.so.1.0.0
+/usr/lib32/libdrm_intel.so.1
+/usr/lib32/libdrm_intel.so.1.0.0
+/usr/lib32/libdrm_nouveau.so.2
+/usr/lib32/libdrm_nouveau.so.2.0.0
+/usr/lib32/libdrm_radeon.so.1
+/usr/lib32/libdrm_radeon.so.1.0.1
+/usr/lib32/libkms.so.1
+/usr/lib32/libkms.so.1.0.0
 
 %files man
 %defattr(0644,root,root,0755)
@@ -227,3 +322,12 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/libdrm_nouveau.a
 /usr/lib64/libdrm_radeon.a
 /usr/lib64/libkms.a
+
+%files staticdev32
+%defattr(-,root,root,-)
+/usr/lib32/libdrm.a
+/usr/lib32/libdrm_amdgpu.a
+/usr/lib32/libdrm_intel.a
+/usr/lib32/libdrm_nouveau.a
+/usr/lib32/libdrm_radeon.a
+/usr/lib32/libkms.a
