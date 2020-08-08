@@ -3,3 +3,5 @@
 # undesireable desirable. One name per line, no whitespace.
 #
 CUnit-dev
+valgrind
+valgrind-dev

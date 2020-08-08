@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libdrm
 Version  : 2.4.102
-Release  : 71
+Release  : 72
 URL      : file:///insilications/build/clearlinux/packages/libdrm/libdrm-libdrm-2.4.102.zip
 Source0  : file:///insilications/build/clearlinux/packages/libdrm/libdrm-libdrm-2.4.102.zip
 Summary  : Userspace interface to kernel DRM services
@@ -29,8 +29,6 @@ BuildRequires : pkgconfig(32pciaccess)
 BuildRequires : pkgconfig(atomic_ops)
 BuildRequires : pkgconfig(cairo)
 BuildRequires : pkgconfig(pciaccess)
-BuildRequires : pkgconfig(valgrind)
-BuildRequires : valgrind
 Patch1: log2int.patch
 Patch2: 0001-Build-shared-and-static.patch
 
@@ -129,7 +127,7 @@ unset http_proxy
 unset https_proxy
 unset no_proxy
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1596136312
+export SOURCE_DATE_EPOCH=1596922172
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -151,16 +149,21 @@ export RANLIB=gcc-ranlib
 export NM=gcc-nm
 #export CCACHE_DISABLE=1
 ## altflags1 end
-CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dudev=true -Ddefault_library=both -Db_lto=true  builddir
+CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dudev=true -Ddefault_library=both -Db_lto=true -Dvalgrind=false  builddir
 ninja -v -C builddir
 pushd ../build32/
+export CFLAGS="-g -O3 -fuse-linker-plugin -pipe"
+export CXXFLAGS="-g -O3 -fuse-linker-plugin -fvisibility-inlines-hidden -pipe"
+export LDFLAGS="-g -O3 -fuse-linker-plugin -pipe"
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
 export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
-meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dudev=true -Ddefault_library=both -Db_lto=true -Dcairo-tests=false \
--Dvalgrind=false builddir
+meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dudev=true -Ddefault_library=both -Db_lto=true -Dvalgrind=false -Dcairo-tests=false -Dvalgrind=false builddir
 ninja -v -C builddir
 popd
 

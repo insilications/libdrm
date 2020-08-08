@@ -7,4 +7,3 @@
 atomic_ops
 cairo
 pciaccess
-valgrind

@@ -1,1 +1,1 @@
--Dudev=true -Ddefault_library=both -Db_lto=true
+-Dudev=true -Ddefault_library=both -Db_lto=true -Dvalgrind=false
