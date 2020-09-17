@@ -5,9 +5,9 @@
 %define keepstatic 1
 Name     : libdrm
 Version  : 2.4.102
-Release  : 73
-URL      : file:///insilications/build/clearlinux/packages/libdrm/libdrm-libdrm-2.4.102.tar.gz
-Source0  : file:///insilications/build/clearlinux/packages/libdrm/libdrm-libdrm-2.4.102.tar.gz
+Release  : 74
+URL      : file:///insilications/build/clearlinux/packages/libdrm/libdrm-xv.tar.gz
+Source0  : file:///insilications/build/clearlinux/packages/libdrm/libdrm-xv.tar.gz
 Summary  : Userspace interface to kernel DRM services
 Group    : Development/Tools
 License  : MIT
@@ -126,8 +126,9 @@ popd
 unset http_proxy
 unset https_proxy
 unset no_proxy
+export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1599656010
+export SOURCE_DATE_EPOCH=1600332905
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -176,6 +177,7 @@ export LANG=C.UTF-8
 unset http_proxy
 unset https_proxy
 unset no_proxy
+export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 meson test -C builddir || :
 cd ../build32;
 meson test -C builddir || : || :
