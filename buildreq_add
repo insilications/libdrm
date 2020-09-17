@@ -2,14 +2,15 @@
 # This file contains extra pkgconfig build requirements that don't get picked up but are 
 # desirable. One name per line, no whitespace.
 #
-findutils
-docbook-xml
 buildreq-meson
 cairo-dev
 docbook-xml
+findutils
 gcc-dev32
 gcc-libgcc32
 gcc-libstdc++32
 glibc-dev32
 glibc-libc32
 libxslt-bin
+libxslt-dev
+libxslt-staticdev
