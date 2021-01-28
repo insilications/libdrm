@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : libdrm
-Version  : 2.4.102
-Release  : 75
-URL      : file:///insilications/build/clearlinux/packages/libdrm/libdrm-xv.tar.gz
-Source0  : file:///insilications/build/clearlinux/packages/libdrm/libdrm-xv.tar.gz
+Version  : 2.4.104
+Release  : 76
+URL      : https://dri.freedesktop.org/libdrm/libdrm-2.4.104.tar.xz
+Source0  : https://dri.freedesktop.org/libdrm/libdrm-2.4.104.tar.xz
 Summary  : Userspace interface to kernel DRM services
 Group    : Development/Tools
 License  : MIT
@@ -17,6 +17,7 @@ Requires: libdrm-man = %{version}-%{release}
 BuildRequires : buildreq-meson
 BuildRequires : cairo-dev
 BuildRequires : docbook-xml
+BuildRequires : docutils
 BuildRequires : findutils
 BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
@@ -31,8 +32,7 @@ BuildRequires : pkgconfig(32pciaccess)
 BuildRequires : pkgconfig(atomic_ops)
 BuildRequires : pkgconfig(cairo)
 BuildRequires : pkgconfig(pciaccess)
-Patch1: log2int.patch
-Patch2: 0001-Build-shared-and-static.patch
+Patch1: 0001-Build-shared-and-static.patch
 
 %description
 What are these headers ?
@@ -109,19 +109,18 @@ staticdev components for the libdrm package.
 %package staticdev32
 Summary: staticdev32 components for the libdrm package.
 Group: Default
-Requires: libdrm-dev = %{version}-%{release}
+Requires: libdrm-dev32 = %{version}-%{release}
 
 %description staticdev32
 staticdev32 components for the libdrm package.
 
 
 %prep
-%setup -q -n libdrm
-cd %{_builddir}/libdrm
+%setup -q -n libdrm-2.4.104
+cd %{_builddir}/libdrm-2.4.104
 %patch1 -p1
-%patch2 -p1
 pushd ..
-cp -a libdrm build32
+cp -a libdrm-2.4.104 build32
 popd
 
 %build
@@ -130,7 +129,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1600364497
+export SOURCE_DATE_EPOCH=1611841977
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -147,14 +146,14 @@ export CFFLAGS="-g -O3 -march=native -mtune=native -fgraphite-identity -Wall -Wl
 #
 export LDFLAGS="-g -O3 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -funroll-loops -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC"
 #
-export AR=gcc-ar
-export RANLIB=gcc-ranlib
-export NM=gcc-nm
+export AR=/usr/bin/gcc-ar
+export RANLIB=/usr/bin/gcc-ranlib
+export NM=/usr/bin/gcc-nm
 #
 export MAKEFLAGS=%{?_smp_mflags}
 #
-%define _lto_cflags 1
-#%define _lto_cflags %{nil}
+%global _lto_cflags 1
+#global _lto_cflags %{nil}
 #
 # export PATH="/usr/lib64/ccache/bin:$PATH"
 # export CCACHE_NOHASHDIR=1
@@ -162,15 +161,12 @@ export MAKEFLAGS=%{?_smp_mflags}
 # export CCACHE_SLOPPINESS=pch_defines,locale,time_macros
 # export CCACHE_DISABLE=1
 ## altflags1 end
-##
-%define _lto_cflags 1
-##
-CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dudev=true -Ddefault_library=both -Db_lto=true -Dvalgrind=false  builddir
-ninja -v -C builddir
+CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Ddefault_library=both -Dudev=true -Ddefault_library=both -Db_lto=true -Dvalgrind=false  builddir
+ninja %{?_smp_mflags} -v -C builddir
 pushd ../build32/
-export CFLAGS="-g -O2 -fuse-linker-plugin -pipe"
-export CXXFLAGS="-g -O2 -fuse-linker-plugin -fvisibility-inlines-hidden -pipe"
-export LDFLAGS="-g -O2 -fuse-linker-plugin -pipe"
+export CFLAGS="-O2 -ffat-lto-objects -fuse-linker-plugin -pipe -fPIC -m32 -mstackrealign -march=native -mtune=native"
+export CXXFLAGS="-O2 -ffat-lto-objects -fuse-linker-plugin -fvisibility-inlines-hidden -pipe -fPIC -m32 -mstackrealign -march=native -mtune=native"
+export LDFLAGS="-O2 -ffat-lto-objects -fuse-linker-plugin -pipe -fPIC -m32 -mstackrealign -march=native -mtune=native"
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -180,8 +176,8 @@ export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
 export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
-meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dudev=true -Ddefault_library=both -Db_lto=true -Dvalgrind=false -Dcairo-tests=false -Dvalgrind=false builddir
-ninja -v -C builddir
+meson --libdir=lib32 --prefix=/usr --buildtype=plain -Ddefault_library=both -Dudev=true -Ddefault_library=both -Db_lto=true -Dvalgrind=false -Dcairo-tests=false -Dvalgrind=false builddir
+ninja %{?_smp_mflags} -v -C builddir
 popd
 
 %check
@@ -328,11 +324,8 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files man
 %defattr(0644,root,root,0755)
-/usr/share/man/man7/drm-gem.7
 /usr/share/man/man7/drm-kms.7
 /usr/share/man/man7/drm-memory.7
-/usr/share/man/man7/drm-mm.7
-/usr/share/man/man7/drm-ttm.7
 /usr/share/man/man7/drm.7
 
 %files staticdev

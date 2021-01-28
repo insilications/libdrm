@@ -14,3 +14,4 @@ glibc-libc32
 libxslt-bin
 libxslt-dev
 libxslt-staticdev
+docutils
